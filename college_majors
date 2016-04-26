@@ -1,0 +1,22 @@
+#Use the /Total column to calculate the number of people who fall under each /Major_category and 
+#store the result as a separate dictionary for each dataset. The key for the dictionary should be 
+#the /Major_category and the value should be the total count. For the counts from /all_ages, store 
+#the results as a dictionary named /all_ages_major_categories and for the counts from /recent_grads, 
+#store the results as a dictionary named /recent_grads_major_categories.
+
+import pandas as pd
+
+#I don't have this data locally due to it not being available from a broken link, but it should work
+#within the dataquest challenge browser.
+
+#Read in csv datasets with Pandas .read_csv() method
+all_ages = pd.read_csv("all-ages.csv")
+recent_grads = pd.read_csv("recent-grads.csv")
+
+#Initialize the dictionaries to contain the answer to the question.
+#The keys here will be the Major_category column value strings and 
+#the values of the keys will be the sum of Total as an integer.
+all_ages_major_categories = {}
+recent_grads_major_categories = {}
+
+#Create a loop to create the keys.
