@@ -5,38 +5,34 @@
 #store the results as a dictionary named /recent_grads_major_categories.
 
 import pandas as pd
+import numpy as np
 
 #I don't have this data locally due to it not being available from a broken link, but it should work
 #within the dataquest challenge browser.
 
 #Create a function to summarize the Major categories
 def summarize_major_categories():
-    #Read in csv datasets with Pandas .read_csv() method
+        #Read in csv datasets with Pandas .read_csv() method
     all_ages = pd.read_csv("all-ages.csv")
     recent_grads = pd.read_csv("recent-grads.csv")
 
-    #Initialize the dictionaries to contain the answer to the question.
-    #The keys here will be the Major_category column value strings and 
-    #the values of the keys will be the sum of Total as an integer.
+        #Initialize the dictionaries to contain the answer to the question.
+        #The keys here will be the Major_category column value strings and 
+        #the values of the keys will be the sum of Total for that Major_category as an integer.
     all_ages_major_categories = {}
     recent_grads_major_categories = {}
 
-    #For loop to iterate over the rows in all_ages, check if the Major_category key is in the dictionary,
-    #and if it is, add to the value of that key the Total value of the current row
-    #and if it's not, create that Major_category key in the dictionary with the Total value of the current row
-    for row in all_ages:
-        if row["Major_category"] in all_ages_major_categories:
-            all_ages_major_categories[row["Major_category"]] += row["Total"]
-        else:
-            all_ages_major_categories[row["Major_category"]] = row["Total"]
+        #Creating this list of all Major_category entries is not necessary in my solution
+        #maj_cats = all_ages.loc[:,"Major_category"].tolist()
+       
+        #This creates the solution, but in the form of a Series object         
+    maj_cat_sums = all_ages.pivot_table(index = "Major_category", values = "Total", aggfunc = np.sum)
+        #Taking advantage of Pandas Series object's .to_dict() method to get the solution
+    all_ages_major_categories = pd.Series.to_dict(maj_cat_sums)
 
-    #Perform the same function on the recent_grads DataFrame
-    for row in recent_grads:
-        if row["Major_category"] in recent_grads_major_categories:
-            recent_grads_major_categories[row["Major_category"]] += row["Total"]
-        else:
-            recent_grads_major_categories[row["Major_category"]] = row["Total"]
+        #Repeating the process for the other .csv file
+    recent_maj_cat_sums = recent_grads.pivot_table(index = "Major_category", values = "Total", aggfunc = np.sum)
+    recent_grads_major_categories = pd.Series.to_dict(recent_maj_cat_sums)
     
-    #Return the dictionaries for which we're creating the function
     return all_ages_major_categories
     return recent_grads_major_categories
